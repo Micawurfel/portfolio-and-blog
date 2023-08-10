@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, {useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -10,24 +10,26 @@ export default function Login() {
 
   async function handleLogin(e) {
     e.preventDefault()
-    let config = {
-      method: 'POST',
-      headers: {'Content-Type':'Application/json'},
-      body: JSON.stringify({email, password}),
-    }
-    const response = await fetch("http://localhost:3001/login", config)
-    .then((res) => res.json())
-    .catch(err => console.log(err));
+    try{
+      const URL = 'http://localhost:3001/login'
+      const config = {
+        method: 'POST',
+        headers: {'Content-Type':'Application/json'},
+        body: JSON.stringify({email, password}),
+      }
 
-    if (response.ok) {
-      console.log('ok')
-      navigate('/service')
-    }else{
-      console.log('wrong credentials')
+      let response = await fetch(URL, config)
+
+      if (response.ok) {
+        navigate('/')
+      }else{
+        console.log('wrong credentials')
+      }
+    
+    }catch(err){
+      console.log(err.message)
     }
-      
   }
-
 
   return (
     <>

@@ -19,20 +19,20 @@ export default function Register(){
   async function handleRegister(e) {
     e.preventDefault()
     try{
-      let config = {
+      const URL = 'http://localhost:3001/register'
+      const config = {
         method: 'POST',
         headers: {'Content-Type':'Application/json'},
         body: JSON.stringify({email, password}),
       }
-      await fetch("http://localhost:3001/register", config)
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch(err => console.log(err));
-        
+
+      let response = await fetch(URL, config)
+      
+      // console.log(response)
       navigate('/blog')
       
     }catch(err){
-      console.log(err)
+      console.log(err.message)
     }
   }
     

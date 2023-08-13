@@ -28,8 +28,7 @@ export default function Register(){
 
       let response = await fetch(URL, config)
       
-      // console.log(response)
-      navigate('/blog')
+      navigate('/login')
       
     }catch(err){
       console.log(err.message)

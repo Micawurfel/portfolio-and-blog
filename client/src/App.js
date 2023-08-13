@@ -12,12 +12,13 @@ import Blog from './pages/Blog'
 import Contact from './pages/Contact'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
+import { UserContextProvider } from './UserContext'
 
 
 
 export default function App() {
   return (
-
+    <UserContextProvider>
     <Router>
 
       <NavBar/>
@@ -39,6 +40,7 @@ export default function App() {
       <Footer/>
 
     </Router>
+    </UserContextProvider>
   )
 }
 

@@ -1,10 +1,12 @@
-import React, {useState } from "react"
-import { useNavigate } from "react-router-dom";
+import React, {useContext, useState } from "react"
+import { useNavigate, Link } from "react-router-dom";
+import { UserContext } from "../../UserContext";
 
 export default function Login() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const {setUserInfo} = useContext(UserContext)
 
   const navigate = useNavigate();
 
@@ -16,12 +18,18 @@ export default function Login() {
         method: 'POST',
         headers: {'Content-Type':'Application/json'},
         body: JSON.stringify({email, password}),
+        credentials: 'include',
       }
 
       let response = await fetch(URL, config)
 
       if (response.ok) {
-        navigate('/')
+        response.json().then(userInfo => {
+          setUserInfo(userInfo)
+          navigate('/')
+          console.log('login')
+        })
+        
       }else{
         console.log('wrong credentials')
       }
@@ -62,8 +70,11 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
+        <Link to={'/register'}>
+          <button className="btn btn-danger">Register</button>
+        </Link>
         <button className="btn btn-primary">LogIn</button>
+
       </form>
     </>
   );

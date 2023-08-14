@@ -1,13 +1,18 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import Post from '../components/Blog/Post'
-import CreatePost from '../components/Blog/CreatePost'
 
 export default function Blog() {
-  return (
-    <div>
-      <CreatePost/>
-      {/* <Post/>  */}
+  const [posts, setPosts] = useState([])
 
+  useEffect(() => {
+    fetch('http://localhost:3001/post')
+      .then(res => res.json())
+      .then(res => setPosts(res))
+  }, [])
+
+  return (
+    <div className='d-flex'>
+      {posts.map(post => <Post {...post} key={post._id}/>)}
     </div>
   )
 }

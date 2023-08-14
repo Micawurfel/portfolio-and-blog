@@ -1,13 +1,21 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import BtnContact from '../BtnContact'
 
-export default function Post() {
+export default function Post({title, summary, file, _id}) {
+  
   return (
-    <>
-        <h1>Titulo</h1>
-        <img src="https://melbaudon.com/wp-content/uploads/2023/08/two-friends-studying-library-using-their-laptops-1536x1024.jpg" alt="" />
-        <p>Estudiar y trabajar al mismo tiempo es uno de los desafíos más difíciles a los que podemos enfrentarnos. Requiere de compromiso, constancia, disciplina y determinación de nuestra parte. Sin embargo, eso no suele ser suficiente: debemos sumarle organización y planificación a la receta para conseguir el éxito.</p>
-
-        <p>Como muchas personas, me tocó combinar estas dos actividades durante una etapa de mi vida y aunque sigo capacitándome, confieso que nada es tan estresante como las exigencias y los tiempos de la Universidad. Al cabo de un año estaba súper abrumada, sin embargo -por suerte- los problemas siempre traen oportunidades. Así fue como aprendí a organizarme y, tras prueba y error, hoy vengo a contarte las claves para balancear la vida entre el estudio y el trabajo. ¡Espero que te ayuden tanto como a mí!</p>
-    </>
+    <div className='article bg-primary' style={{width: '400px', height:'400px'}}>
+      <Link to={`/post/${_id}`}>
+        <img src={`http://localhost:3001/`+file} alt="" style={{width: '380px', height:'200px'}}/>
+      </Link>
+      <div>
+        <Link to={`/post/${_id}`}>
+          <h1>{title} </h1>
+        </Link>
+        <p>{summary}</p>
+        <BtnContact link={`/post/${_id}`} title='Leer Mas'/>
+      </div>
+    </div>
   )
 }

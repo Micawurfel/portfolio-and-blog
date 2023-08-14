@@ -3,6 +3,7 @@ const router = express.Router()
 const bcrypt = require('bcryptjs'); 
 const salt = bcrypt.genSaltSync(10);
 const User = require('./models/user')
+const PostModel = require('./models/post')
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie');
 const multer  = require('multer')
@@ -62,22 +63,35 @@ const storage = multer.diskStorage({
       cb(null, 'uploads')
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now())
+      cb(null, file.originalname)
     }
   })
 const upload = multer({ storage: storage })
-// const upload = multer({ dest: 'uploads/' })
 
-// router.route('/post').post(upload.single('imagen'), (req, res)=>{
-router.post('/post', upload.single('imagen'), (req, res)=>{
-    // try {
-        const imagen = req.file
-        console.log(imagen)
-        res.send(imagen)
-    //   }catch(err) {
-    //     res.send(400);
-    //   }
+router.post('/post', upload.single('imagen'), async (req, res)=>{
+    const imagen = req.file
+    // res.send(imagen)
 
+    const {title, summary, content} = req.body
+    const postDoc = await PostModel.create({
+        title,
+        summary,
+        content,
+        file: imagen.filename
+    })
+    console.log(postDoc)
+    res.json(postDoc)
+})
+
+router.get('/post', async (req, res) =>{
+    const posts = await PostModel.find()
+    res.json(posts)
+})
+
+router.get('/post/:id', async (req, res) =>{
+    const {id} = req.params
+    const postDoc = await PostModel.findById(id)
+    res.json(postDoc)
 })
 
 module.exports = router;

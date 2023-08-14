@@ -52,7 +52,7 @@ export function NavBar() {
             {userInfo!='' && userInfo!=undefined 
               ?
                 <>
-                    <Link to='/blog'><button>Crear Post</button></Link>
+                    <Link to='/create-post'><button>Crear Post</button></Link>
                     <button onClick={logout}>Log out</button>
                 </>
                 :

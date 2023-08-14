@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -25,14 +26,15 @@ export default function CreatePost() {
   const [imagen, setImagen] = useState('')
   const [content, setContent] = useState('')
 
-  
+  const navigate = useNavigate()
+
   async function createNewPost(e){
     e.preventDefault()
     const data = new FormData
     data.set('title', title);
     data.set('summary', summary);
     data.set('content', content);
-    data.append('imagen', imagen, 'imagen');
+    data.set('imagen', imagen);
 
     try {
       const URL = 'http://localhost:3001/post'
@@ -42,12 +44,12 @@ export default function CreatePost() {
       }
 
       let response = await fetch(URL, config)
-      console.log(response)
+      
+      if (response.ok) navigate('/blog')
 
     } catch (error) {
       console.log(error)
     }
-    console.log(imagen)
   }
 
   return (
@@ -62,13 +64,13 @@ export default function CreatePost() {
       />
       <input type="file"
               name='imagen'
-              // filename='imagen'
               onChange={e=> setImagen(e.target.files[0])}
       />
       <ReactQuill modules={modules} 
                   formats={formats}
-                  // value={content}
-                  onChange={e=> setContent(e.target.value)}
+                  theme="snow"
+                  value={content}
+                  onChange={setContent}
       />
       <button>Crear Post</button>
     </form>

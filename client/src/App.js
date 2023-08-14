@@ -13,6 +13,8 @@ import Contact from './pages/Contact'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 import { UserContextProvider } from './UserContext'
+import CreatePost from './components/Blog/CreatePost'
+import PostPage from './components/Blog/PostPage'
 
 
 
@@ -34,6 +36,9 @@ export default function App() {
 
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register/>} />
+
+        <Route path='/create-post' element={<CreatePost/>} />
+        <Route path='/post/:id' element={<PostPage/>} />
 
       </Routes>
 

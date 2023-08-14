@@ -22,7 +22,7 @@ const formats = [
 export default function CreatePost() {
   const [title, setTitle] = useState('')
   const [summary, setSummary] = useState('')
-  const [file, setFile] = useState('')
+  const [imagen, setImagen] = useState('')
   const [content, setContent] = useState('')
 
   
@@ -32,36 +32,43 @@ export default function CreatePost() {
     data.set('title', title);
     data.set('summary', summary);
     data.set('content', content);
-    data.set('file', file);
-    
-    await fetch('http://localhost3001/blog', {
-      method: 'POST',
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch(err => console.log(err.message));
-      
+    data.append('imagen', imagen, 'imagen');
+
+    try {
+      const URL = 'http://localhost:3001/post'
+      const config = {
+        method: 'POST',
+        body: data, 
+      }
+
+      let response = await fetch(URL, config)
+      console.log(response)
+
+    } catch (error) {
+      console.log(error)
+    }
+    console.log(imagen)
   }
 
   return (
-    <form onSubmit={createNewPost}>
+    <form onSubmit={createNewPost} encType="multipart/form-data">
       <input type="title" 
-              // value={title} 
               placeholder='Title'
               onChange={e=> setTitle(e.target.value)}
       />
       <input type="summary" 
-              // value={summary} 
               placeholder='Summary'
               onChange={e=> setSummary(e.target.value)} 
       />
       <input type="file"
-              onChange={e=> setFile(e.target.files)} 
+              name='imagen'
+              // filename='imagen'
+              onChange={e=> setImagen(e.target.files[0])}
       />
       <ReactQuill modules={modules} 
                   formats={formats}
-                  // onChange={e=> setContent(e.target.value)}
+                  // value={content}
+                  onChange={e=> setContent(e.target.value)}
       />
       <button>Crear Post</button>
     </form>

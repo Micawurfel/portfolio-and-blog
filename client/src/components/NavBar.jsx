@@ -13,16 +13,13 @@ export function NavBar() {
         .then(res=> setUserInfo(res.id))
         .catch(err=> console.log(err))
     }, [])
-
-    console.log(userInfo)
     
     function logout(){
         fetch('http://localhost:3001/logout',{
             method: 'POST',
             credentials: 'include',
         }) 
-        setUserInfo('')
-        console.log(userInfo)      
+        setUserInfo('') 
     }
 
   return (

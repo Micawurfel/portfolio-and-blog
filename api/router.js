@@ -1,13 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
 const bcrypt = require('bcryptjs'); 
 const salt = bcrypt.genSaltSync(10);
 const User = require('./models/user')
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie');
-
+const multer  = require('multer')
 
 router.post('/register', async (req, res) => {
     const {email, password} = req.body
@@ -58,9 +56,28 @@ router.post('/logout', (req, res)=>{
         cookie.set('token', {maxAge: 0});
     }
 })
- 
-router.post('/blog', upload.single('file'), (req, res)=>{
-    res.json(files, req.file)
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+    }
+  })
+const upload = multer({ storage: storage })
+// const upload = multer({ dest: 'uploads/' })
+
+// router.route('/post').post(upload.single('imagen'), (req, res)=>{
+router.post('/post', upload.single('imagen'), (req, res)=>{
+    // try {
+        const imagen = req.file
+        console.log(imagen)
+        res.send(imagen)
+    //   }catch(err) {
+    //     res.send(400);
+    //   }
+
 })
 
 module.exports = router;

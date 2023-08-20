@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 export default function PostPage() {
 const [postInfo, setPostInfo] = useState(null)
@@ -16,12 +16,15 @@ const {id} = useParams()
 
   return (
     <div className='container bg-primary'>
-        <img src={`http://localhost:3001/${postInfo.file}`} alt="" />
-        <div>
-          <h1>{postInfo.title} </h1>
-          <h2>{postInfo.summary}</h2>
-          <div dangerouslySetInnerHTML={{__html:postInfo.content}}/>
-        </div>
+      <Link to={`/edit/${postInfo._id}`}>
+        <button>Edit Post</button>
+      </Link>
+      <img src={`http://localhost:3001/${postInfo.file}`} alt="" />
+      <div>
+        <h1>{postInfo.title} </h1>
+        <h2>{postInfo.summary}</h2>
+        <div dangerouslySetInnerHTML={{__html:postInfo.content}}/>
+      </div>
         
     </div>
   )

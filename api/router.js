@@ -68,9 +68,9 @@ const storage = multer.diskStorage({
   })
 const upload = multer({ storage: storage })
 
+// CREAR NUEVO POST
 router.post('/post', upload.single('imagen'), async (req, res)=>{
     const imagen = req.file
-    // res.send(imagen)
 
     const {title, summary, content} = req.body
     const postDoc = await PostModel.create({
@@ -83,11 +83,30 @@ router.post('/post', upload.single('imagen'), async (req, res)=>{
     res.json(postDoc)
 })
 
+// EDITAR POST
+router.put('/post/:id',  upload.single('imagen'), async (req, res) =>{
+    const {id} = req.params
+    const imagen = req.file
+    const {title, summary, content} = req.body
+    console.log(req.body)
+
+    const postDoc = await PostModel.findByIdAndUpdate(id, {
+        title: title,
+        summary: summary,
+        content: content,
+        file: imagen.filename
+    })
+
+    res.json(postDoc)
+})
+
+// OBTENER TODOS LOS POST
 router.get('/post', async (req, res) =>{
     const posts = await PostModel.find()
     res.json(posts)
 })
 
+// OBTENER UN POST
 router.get('/post/:id', async (req, res) =>{
     const {id} = req.params
     const postDoc = await PostModel.findById(id)

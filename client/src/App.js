@@ -15,6 +15,7 @@ import Register from './pages/auth/Register'
 import { UserContextProvider } from './UserContext'
 import CreatePost from './components/Blog/CreatePost'
 import PostPage from './components/Blog/PostPage'
+import EditPost from './components/Blog/EditPost'
 
 
 
@@ -39,6 +40,7 @@ export default function App() {
 
         <Route path='/create-post' element={<CreatePost/>} />
         <Route path='/post/:id' element={<PostPage/>} />
+        <Route path='/edit/:id' element={<EditPost/>} />
 
       </Routes>
 
